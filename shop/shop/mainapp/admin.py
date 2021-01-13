@@ -21,18 +21,18 @@ class NotebookAdminForm(ModelForm):
             )
         )
 
-    def clean_image(self):
-        image = self.cleaned_data['image']
-        img = Image.open(image)
-        min_height, min_width = Product.MIN_RESOLUTION
-        max_height, max_width = Product.MAX_RESOLUTION
-        if image.size > Product.MAX_IMAGE_SIZE:
-            raise ValidationError(f'Объем изображения не должен превышать {int(Product.MAX_IMAGE_SIZE)/1048576}Mb!')
-        if img.height < min_height or img.width < min_width:
-            raise ValidationError('Загруженное изображение меньше минимального!')
-        if img.height > max_height or img.width > max_width:
-            raise ValidationError('Загруженное изображение больше максимального!')
-        return image
+    # def clean_image(self):
+    #     image = self.cleaned_data['image']
+    #     img = Image.open(image)
+    #     min_height, min_width = Product.MIN_RESOLUTION
+    #     max_height, max_width = Product.MAX_RESOLUTION
+    #     if image.size > Product.MAX_IMAGE_SIZE:
+    #         raise ValidationError(f'Объем изображения не должен превышать {int(Product.MAX_IMAGE_SIZE)/1048576}Mb!')
+    #     if img.height < min_height or img.width < min_width:
+    #         raise ValidationError('Загруженное изображение меньше минимального!')
+    #     if img.height > max_height or img.width > max_width:
+    #         raise ValidationError('Загруженное изображение больше максимального!')
+    #     return image
 
 class NotebookAdmin(admin.ModelAdmin):
 

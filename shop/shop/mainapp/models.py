@@ -4,6 +4,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from io import BytesIO
 
 User = get_user_model()
 
@@ -49,8 +52,8 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    MIN_RESOLUTION = (400, 400)
-    MAX_RESOLUTION = (4000, 4000)
+    MIN_RESOLUTION = (500, 280)
+    MAX_RESOLUTION = (1920, 1080)
     MAX_IMAGE_SIZE = 3145728
 
     class Meta:
@@ -74,8 +77,16 @@ class Product(models.Model):
         if img.height < min_height or img.width < min_width:
             raise MinResolutionErrorException('Загруженное изображение меньше минимального!')
         if img.height > max_height or img.width > max_width:
-            raise MaxResolutionErrorException('Загруженное изображение меньше минимального!')
-        return image
+            #raise MaxResolutionErrorException('Загруженное изображение меньше минимального!')
+            new_img = img.convert('RGB')
+            resized_new_image = new_img.resize((1920, 1080), Image.ANTIALIAS)
+            filestream = BytesIO()
+            file_ = resized_new_image.save(filestream, 'JPEG', quality=90)
+            file_.seek(0)
+            self.image = InMemoryUploadedFile(
+                file_
+            )
+        super().save(*args,  **kwargs)
 
 
 class CartProduct(models.Model):
