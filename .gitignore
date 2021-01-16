@@ -5,7 +5,11 @@
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
 
+#virtualenv
 pyvenv.cfg
+scripts/
+lib/
+include/
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
