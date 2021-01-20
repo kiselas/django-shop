@@ -1,0 +1,91 @@
+<div class="row d-flex align-items-start mt-5 pt-3 ps-2">
+          <div class="col-md-4 nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Описание</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Характеристики</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Отзывы</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Настройки</a>
+          </div>
+          <div class="col-md-8 tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <h4>Описание {{ product.title }}</h4>
+                {{ product.description }}
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <h2>Характеристики {{ product.title }}</h2>
+                <table class="table table-hover w-75 ms-3" >
+                  <tbody>
+                    <tr>
+                        <th scope="row"  class="table-head">Экран</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Диагональ</th>
+                      <th scope="row">{{ product.diagonal }}</th>
+                      <th scope="row"></th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Тип дисплея</th>
+                      <th scope="row">{{ product.display_type }}</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Разрешение экрана</th>
+                      <th scope="row">{{ product.resolution }}</th>
+                    </tr>
+                        <th scope="row" class="table-head">Процессор</th>
+                    <tr>
+                      <th scope="row">Частота процессора</th>
+                      <th scope="row">{{ product.processor_freq }}</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="table-head">Оперативная память</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Объем</th>
+                      <th scope="row">{{ product.ram }}</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="table-head">Видеокарта</th>
+                    </tr>
+                     <tr>
+                      <th scope="row">Видеокарта</th>
+                      <th scope="row">{{ product.video }}</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="table-head">Аккумулятор</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Емкость аккумулятора</th>
+                      <th scope="row">{{ product.accum_volume }}</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="table-head">Система</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Поддержка карты памяти</th>
+                      <th scope="row">{{ product.sd }}</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Поддержка карты памяти</th>
+                      <th scope="row">{{ product.sd_volume_max }}</th>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="table-head">Камера</th>
+                    </tr>
+                    <tr>
+                      <th scope="row">Основная камера</th>
+                      <th scope="row">{{ product.main_cam_mp }}</th>frontal_cam_mp
+                    </tr>
+                    <tr>
+                      <th scope="row">Основная камера</th>
+                      <th scope="row">{{ product.frontal_cam_mp }}</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <h4>Отзывы</h4>
+                <p>Пока нет отзывов</p>
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+          </div>
+        </div>
+

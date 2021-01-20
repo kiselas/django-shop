@@ -7,11 +7,7 @@ from django.utils.safestring import mark_safe
 from .models import *
 
 
-
-
-
 class NotebookAdminForm(ModelForm):
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -21,18 +17,19 @@ class NotebookAdminForm(ModelForm):
             )
         )
 
-    # def clean_image(self):
-    #     image = self.cleaned_data['image']
-    #     img = Image.open(image)
-    #     min_height, min_width = Product.MIN_RESOLUTION
-    #     max_height, max_width = Product.MAX_RESOLUTION
-    #     if image.size > Product.MAX_IMAGE_SIZE:
-    #         raise ValidationError(f'Объем изображения не должен превышать {int(Product.MAX_IMAGE_SIZE)/1048576}Mb!')
-    #     if img.height < min_height or img.width < min_width:
-    #         raise ValidationError('Загруженное изображение меньше минимального!')
-    #     if img.height > max_height or img.width > max_width:
-    #         raise ValidationError('Загруженное изображение больше максимального!')
-    #     return image
+    def clean_image(self):
+        image = self.cleaned_data['image']
+        img = Image.open(image)
+        min_height, min_width = Product.MIN_RESOLUTION
+        max_height, max_width = Product.MAX_RESOLUTION
+        if image.size > Product.MAX_IMAGE_SIZE:
+            raise ValidationError(f'Объем изображения не должен превышать {int(Product.MAX_IMAGE_SIZE)/1048576}Mb!')
+        if img.height < min_height or img.width < min_width:
+            raise ValidationError('Загруженное изображение меньше минимального!')
+        if img.height > max_height or img.width > max_width:
+            raise ValidationError('Загруженное изображение больше максимального!')
+        return image
+
 
 class NotebookAdmin(admin.ModelAdmin):
 
@@ -44,10 +41,29 @@ class NotebookAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
+# class SmartphoneAdminForm(ModelForm):
+#
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         instance = kwargs.get('instance')
+#         if not instance:
+#             self.fields['sd_volume_max'].widget.attrs.update({
+#                 'readonly': True, 'style': 'background: lightgray'
+#             })
+#
+#     def clean(self):
+#         if not self.cleaned_data['sd']:
+#             self.cleaned_data['sd_volume_max'] = None
+#         return self.cleaned_data
 
 
 
 class SmartphoneAdmin(admin.ModelAdmin):
+
+    change_form_template = 'admin.html'
+
+    #form = SmartphoneAdminForm
+
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == 'category':

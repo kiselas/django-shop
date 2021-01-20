@@ -1,0 +1,48 @@
+{% extends "base.html"%}
+{% load specifications %}
+{% block content %}
+    <nav class="container mt-2 mb-2" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'base' %}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="#">{{ product.category.name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+      </ol>
+    </nav>
+<div class="container mt-2 mb-5">
+    <div class=" row pb-5 d-flex justify-content-center">
+
+        <div class="pt-3 pb-3">
+            <h1 class="">{{ product.title }}</h1>
+        </div>
+        <div class="col-md-3">
+            <img class="w-75" src="{{ product.image.url }}" alt="">
+        </div>
+        <div class="col-md-3">
+            <h1>{{ product.price }}</h1>
+            <div class="rating-mini">
+                <span class="active"></span>
+                <span class="active"></span>
+                <span class="active"></span>
+                <span></span>
+                <span></span>
+            </div>
+            <p class="rating-digit">3.0</p>
+            <button type="button" class="btn btn-dark">Купить</button>
+        </div>
+        <div class="col-md-3">
+            Add info
+        </div>
+        <div class="col-md-3">
+                Others
+        </div>
+    </div>
+    {% if product|product_spec %}
+      {% include product|product_spec %}
+    {% endif %}
+
+
+
+
+</div>
+
+{% endblock content %}

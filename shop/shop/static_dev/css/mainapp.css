@@ -1,0 +1,44 @@
+body {
+    background-color: rgb(246, 246, 246);
+}
+.row, .side-row {
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.16);
+}
+
+table, tr, th {
+	border: none; !important;
+}
+.table-head {
+	font-weight: bold;
+}
+th {
+	font-weight: normal;
+}
+.rating-mini {
+	display: inline-block;
+	font-size: 0;
+    float: left;
+}
+.rating-mini span {
+	padding: 0;
+	font-size: 20px;
+	line-height: 1;
+	color: lightgrey;
+
+}
+.rating-mini > span:before {
+	content: '★';
+}
+.rating-mini > span.active {
+	color: gold;
+}
+
+.rating-digit {
+    font-weight: bold;
+}
+
+.tab-pane {
+	transition: all 0.2s ease-in;
+}
