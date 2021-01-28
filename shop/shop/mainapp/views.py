@@ -69,6 +69,9 @@ class AddToCartView(View):
 
         )
         print(dir(CartProduct))
+        cart.products.add(cart_product)
+        cart.save()
+
         return HttpResponseRedirect('/cart/')
 
 
