@@ -51,8 +51,8 @@ class LatestProducts:
 class CategoryManager(models.Manager):
 
     CATEGORY_NAME_COUNT_NAME = {
-        'Ноутбуки': 'notebookproduct__count',
-        'Смартфоны': 'smartphoneproduct__count'
+        'Ноутбуки': 'notebooks__count',
+        'Смартфоны': 'smartphones__count'
     }
 
 
@@ -60,12 +60,17 @@ class CategoryManager(models.Manager):
         return super().get_queryset()
 
     def get_categories(self):
-        models = get_models_for_count('notebookproduct', 'smartphoneproduct')
-        qs = list(self.get_queryset().annotate(*models).values())
-        return [dict(name=c['name'], slug=c['slug'], count=c[self.CATEGORY_NAME_COUNT_NAME[c['name']]]) for c in qs]
+        models = get_models_for_count('notebooks', 'smartphones')
+        qs = list(self.get_queryset().annotate(*models))
+        data = [
+            dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
+            for c in qs
+        ]
+        return data
 
 
 class Category(models.Model):
+
     name = models.CharField(max_length=255, verbose_name='Имя категории')
     slug = models.SlugField(unique=True)
 
@@ -74,8 +79,12 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('category_detail', kwargs={'slug': self.slug})
+
 
 class Product(models.Model):
+
     MIN_RESOLUTION = (500, 280)
     MAX_RESOLUTION = (1920, 1080)
     MAX_IMAGE_SIZE = 3145728
@@ -137,7 +146,7 @@ class Cart(models.Model):
     for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 
 class Customer(models.Model):
@@ -158,7 +167,7 @@ class Specifications(models.Model):
         return 'Характеристики для товара: {}'.format(self.name)
 
 
-class NotebookProduct(Product):
+class Notebooks(Product):
     diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
     processor_freq = models.CharField(max_length=255, verbose_name='Частота процессора')
@@ -173,7 +182,7 @@ class NotebookProduct(Product):
         return get_product_url(self, 'product_detail')
 
 
-class SmartphoneProduct(Product):
+class Smartphones(Product):
     diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
     resolution = models.CharField(max_length=255, verbose_name='Разрешение дисплея ')
