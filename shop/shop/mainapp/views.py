@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
 from .models import Notebooks, Smartphones, Category, LatestProducts, Customer, Cart, CartProduct
 from .mixins import CategoryDetailMixin, CartMixin
+from .forms import OrderForm
 
 
 class BaseView(CartMixin, View):
@@ -115,3 +116,16 @@ class DeleteFromCartView(CartMixin, View):
         self.cart.save()
         messages.add_message(request, messages.INFO, 'Товар успешно удален из корзины')
         return HttpResponseRedirect('/cart/')
+
+
+class CheckoutView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.objects.get_categories()
+        form = OrderForm(request.POST or None)
+        context = {
+            'cart': self.cart,
+            'categories': categories,
+            'form': form
+        }
+        return render(request, 'checkout.html', context)
