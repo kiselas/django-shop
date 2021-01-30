@@ -1,16 +1,25 @@
 {% extends "base.html"%}
 
 {% block content %}
-    {{ cart.total_products }}
     <h3 class="text-center my-5">Ваша корзина {% if not cart.products.count %}пуста{% endif %} </h3>
-<table class="table">
+
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% if cart.products.count %}
+    <table class="table">
   <thead>
     <tr>
       <th scope="col">Наименование</th>
       <th scope="col">Изображение</th>
       <th scope="col">Цена</th>
       <th scope="col">Кол-во</th>
-      <th scope="col">Общая цена</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -19,11 +28,32 @@
       <th scope="row">{{ item.content_object.title }} </th>
       <td class="w-25"><img class="img-fluid" src="{{ item.content_object.image.url }}"></td>
       <td>{{ item.content_object.price }} руб. </td>
-      <td>{{ item.qty }}</td>
-      <td>{{ item.final_price }} руб. </td>
+      <td>
+          <form action="{%  url 'change_qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" method="POST">
+              {% csrf_token %}
+              <input type="number" min="1" class="form-control" name="qty" style="width: 60px; float: left;" value="{{ item.qty }}">
+              <input type="submit" class="btn btn-primary" value="Изменить">
+          </form>
+      </td>
+      <td>
+          <a href="{% url 'del_from_cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}">
+              <button class="btn btn-danger">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                </svg>
+              </button>
+          </a>
+      </td>
     </tr>
   {% endfor %}
+    <tr>
+        <td colspan='2'></td>
+        <td>Итого</td>
+        <td>{{ cart.total_products }}</td>
+        <td><strong>{{ cart.final_price }}руб.</strong></td>
+    </tr>
+
   </tbody>
 </table>
-
+{% endif %}
  {% endblock content %}
